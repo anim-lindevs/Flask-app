@@ -1,0 +1,35 @@
+pipeline{
+    
+    agent{label "supi"}
+    
+    stages{
+        
+        stage("code"){
+          steps{
+              echo "code cloning starting"
+              git url: "https://github.com/anim-lindevs/Flask-app.git",branch: "main"
+              echo "code cloning successful"
+          } 
+        }
+        stage("build"){
+            steps{
+                echo "code building starting"
+                sh "docker build -t flask-app:latest ."
+                echo "code building successful"
+            }
+        }
+        stage("test"){
+            steps{
+                echo "code testing starting"
+                echo "code testing successful"
+            }
+        }
+        stage("deploy"){
+            steps{
+                echo "code deploying starting"
+                sh "docker compose -f Flask.yaml up -d"
+                echo "code deploying successful"
+            }
+        }
+    }
+}
